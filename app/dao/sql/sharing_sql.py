@@ -1,0 +1,3 @@
+sharing_sql = {
+    "graphicDynamic": ""
+}

@@ -1,0 +1,13 @@
+# 服务器配置
+HOST = '0.0.0.0'
+PORT = 8080
+DEBUG = True
+# 数据库配置
+SQL_HOST = '192.168.1.151'
+SQL_USER = 'root'
+SQL_PASSWORD = '123456789'
+SQL_PORT = 3306
+SQL_DB = 'mydata'
+SQL_CHARSET = 'utf8'
+# toke加盐
+SECRECT_KEY = '123456'

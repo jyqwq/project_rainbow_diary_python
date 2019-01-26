@@ -1,0 +1,21 @@
+user_sql = {
+    "getUserById": "select user_id,user_nickname,user_phone,user_icon,user_skin,user_sex,user_age,user_autograpgh,user_fans,user_watchs from user where user_phone={telephone} limit 1",
+    "commonRegister": "insert into user(user_phone,user_password,user_nickname,regist_date) values('{telephone}','{password}','{nickname}',CURDATE())",
+    "getPassword" : "select user_password from user where user_phone={telephone} limit 1",
+    "applicationForResidence": "",
+    "celebrityCertification": "",
+    "skinTest": "",
+    "deleteDynamics": "",
+    "updateDynamics": "",
+    "viewMyDynamics": "",
+    "increaseCollection": "",
+    "deleteCollection": "",
+    "viewCollections": "",
+    "increaseCompliment": "",
+    "deleteCompliment": "",
+    "viewCompliment": "",
+    "increaseConcerns": "",
+    "deleteConcerns": "",
+    "viewConcerns": "",
+    "addTimeCosmetics": ""
+}
