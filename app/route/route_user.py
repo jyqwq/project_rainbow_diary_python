@@ -41,9 +41,10 @@ def login():
             u = request.get_json()
             if u['token']:
                 res = check_Token(u['token'])
+                return json.dumps(res)
             else:
                 res = get_User(u)
-            return json.dumps(res)
+                return res
         else:
             return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
     else:

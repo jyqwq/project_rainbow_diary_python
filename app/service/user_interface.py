@@ -41,10 +41,9 @@ def get_User(user):
                 if (check_password_hash(user_pwd['user_password'], user['password'])):
                     token = createToken(user['telephone'])
                     response = make_response()
-                    response.data = json.dumps(
-                        {"status_code": "10003", "status_text": "登录成功", "token": token, "usermessage": rr})
+                    response.data = json.dumps({"status_code": "10003", "status_text": "登录成功", "token": token, "usermessage": rr})
                     response.status_code = 200
-                    print(response.data)
+                    print(response)
                     return response
                 else:
                     return {"status_code": "10005", "status_text": "密码错误"}
