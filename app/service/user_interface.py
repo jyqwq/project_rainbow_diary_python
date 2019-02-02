@@ -15,7 +15,7 @@ def common_Register(user):
         user['password'] = pf
         rr = getUserByTel(user['telephone'])
         if rr:
-            return {"status_code": "10002", "status_text": "用户已经存在"}
+            return json.dumps({"status_code": "10002", "status_text": "用户已经存在"})
         else:
             res = commonRegister(user)
             if res:
@@ -26,14 +26,15 @@ def common_Register(user):
                 response.status_code = 200
                 return response
             else:
-                return {"status_code": "40004", "status_text": "系统错误"}
+                return json.dumps({"status_code": "40004", "status_text": "系统错误"})
     else:
-        return {"status_code": "40005", "status_text": "数据格式不合法"}
+        return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
 
 
 # 登录方法
 def get_User(user):
     if user.get('telephone') and user.get('password'):
+        print(user['telephone'])
         rr = getUserByTel(user['telephone'])
         if rr:
             user_pwd = getPassword(user['telephone'])
@@ -46,13 +47,13 @@ def get_User(user):
                     print(response)
                     return response
                 else:
-                    return {"status_code": "10005", "status_text": "密码错误"}
+                    return json.dumps({"status_code": "10005", "status_text": "密码错误"})
             else:
-                return {"status_code": "40004", "status_text": "系统错误"}
+                return json.dumps({"status_code": "40004", "status_text": "系统错误"})
         else:
-            return {"status_code": "10004", "status_text": "该用户不存在"}
+            return json.dumps({"status_code": "10004", "status_text": "该用户不存在"})
     else:
-        return {"status_code": "40005", "status_text": "数据格式不合法"}
+        return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
 
 
 # 自动登录检查token
@@ -154,6 +155,6 @@ def add_Time_Cosmetics():
 if __name__ == '__main__':
     user = {"telephone": "13812383824", "password": "123456", "nickname": "JyQQ"}
     # res=common_Register(user)
-    # res = getUserByTel('1381313813')
-    res = get_User(user)
+    res = getUserByTel('13813813813')
+    # res = get_User(user)
     print(res)

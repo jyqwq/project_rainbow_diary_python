@@ -1,4 +1,5 @@
 from app.app import app
+from app.route.route_sharing import sharing
 from app.route.route_search import search
 from app.route.route_user import user
 from flask import Blueprint,request
@@ -6,6 +7,7 @@ from app.service.index_interface import *
 import json
 
 # 构建蓝图
+app.register_blueprint(sharing, url_prefix='/sharing')
 app.register_blueprint(search, url_prefix='/search')
 app.register_blueprint(user, url_prefix='/user')
 

@@ -1,3 +1,7 @@
 sharing_sql = {
-    "graphicDynamic": ""
+    "graphicDynamic": "",
+    "evaluationIndex":"",
+    "graphicDy":"",
+    "graphicDairy":"",
+    "graphicTest":""
 }
