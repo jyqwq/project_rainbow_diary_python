@@ -37,16 +37,55 @@ def graphicDairy(con):
 def graphicTest(con):
     try:
         test = None
+        test_id = None
         client = POOL.connection()
         cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
-        sql = sharing_sql['graphicTest']
-        test = cursor.execute(sql)
+        sql1 = sharing_sql['graphicTest1'].format(com_id=con['com_id'],main_title=con['title'],main_content=con['content'],user_id=con['user_id'],tags_id=con['tag_id'],img=con['img'])
+        print(sql1)
+        cursor.execute(sql1)
+        test_id = cursor.lastrowid
+        print(test_id)
+        sql2 = sharing_sql['graphicTest2'].format(title1=con['title1'],content1=con['content1'],title2=con['title2'],content2=con['content2'],test_id=test_id)
+        test = cursor.execute(sql2)
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return test
+
+# 获取标签id的源码
+def getTag(tag):
+    try:
+        tag_id = None
+        client = POOL.connection()
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = sharing_sql['getTag'].format(tag_name=tag)
+        cursor.execute(sql)
+        tag_id = cursor.fetchone()
         client.commit()
     except Exception as ex:
         client.rollback()
     finally:
         client.close()
-        return test
+        return tag_id
+
+# 获取产品id的源码
+def getCom(com):
+    try:
+        com_id = None
+        client = POOL.connection()
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = sharing_sql['getCom'].format(com_name=com)
+        cursor.execute(sql)
+        com_id = cursor.fetchone()
+        client.commit()
+    except Exception as ex:
+        client.rollback()
+    finally:
+        client.close()
+        return com_id
 
 # 测评页面
 def evaluationIndex():
