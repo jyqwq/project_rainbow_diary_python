@@ -24,20 +24,24 @@ def eva_index():
     else:
         return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
 
-@sharing.route('/release')
+@sharing.route('/release',methods=['POST'])
 def release_sharing():
     if request.is_json and request.get_json():
         u = request.get_json()
-        # 心情写入
-        if u['type'] == 'dy':
-            res = graphic_Dy(u)
-        # 日记写入
-        elif u['type'] == 'dairy':
-            res = graphic_Dairy(u)
-        # 测评写入
-        elif u['type'] == 'test':
-            res = graphic_Test(u)
+        if u['user_id']:
+            # 心情写入
+            if u['type'] == 'dy':
+                res = graphic_Dy(u)
+            # 日记写入
+            elif u['type'] == 'dairy':
+                res = graphic_Dairy(u)
+            # 测评写入
+            elif u['type'] == 'test':
+                res = graphic_Test(u)
+            else:
+                return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
         else:
             return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
+        return json.dumps(res)
     else:
         return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})

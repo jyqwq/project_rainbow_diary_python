@@ -9,10 +9,12 @@ def graphicDy(con):
         dy = None
         client = POOL.connection()
         cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
-        sql = sharing_sql['graphicDy']
+        sql = sharing_sql['graphicDy'].format(user_id=con['user_id'],content=con['content'],img=con['img'],tags=con['tag'])
+        print(sql)
         dy = cursor.execute(sql)
         client.commit()
     except Exception as ex:
+        print(ex)
         client.rollback()
     finally:
         client.close()
@@ -24,10 +26,11 @@ def graphicDairy(con):
         dairy = None
         client = POOL.connection()
         cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
-        sql = sharing_sql['graphicDairy']
+        sql = sharing_sql['graphicDairy'].format(user_id=con['user_id'],title=con['title'],content=con['content'],img=con['img'],tags=con['tag'])
         dairy = cursor.execute(sql)
         client.commit()
     except Exception as ex:
+        print(ex)
         client.rollback()
     finally:
         client.close()
@@ -40,7 +43,7 @@ def graphicTest(con):
         test_id = None
         client = POOL.connection()
         cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
-        sql1 = sharing_sql['graphicTest1'].format(com_id=con['com_id'],main_title=con['title'],main_content=con['content'],user_id=con['user_id'],tags_id=con['tag_id'],img=con['img'])
+        sql1 = sharing_sql['graphicTest1'].format(com_id=con['com_id'],main_title=con['title'],main_content=con['content'],user_id=con['user_id'],tags=con['tag'],img=con['img'])
         print(sql1)
         cursor.execute(sql1)
         test_id = cursor.lastrowid
@@ -66,6 +69,7 @@ def getTag(tag):
         tag_id = cursor.fetchone()
         client.commit()
     except Exception as ex:
+        print(ex)
         client.rollback()
     finally:
         client.close()
@@ -82,6 +86,7 @@ def getCom(com):
         com_id = cursor.fetchone()
         client.commit()
     except Exception as ex:
+        print(ex)
         client.rollback()
     finally:
         client.close()
@@ -98,6 +103,7 @@ def evaluationIndex():
         eva_content = cursor.fetchall()
         client.commit()
     except Exception as ex:
+        print(ex)
         client.rollback()
     finally:
         client.close()

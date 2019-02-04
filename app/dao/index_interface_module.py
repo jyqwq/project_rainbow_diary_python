@@ -33,6 +33,7 @@ def hotDynamic():
         hot_dynamic = cursor.fetchall()
         client.commit()
     except Exception as ex:
+        print(ex)
         client.rollback()
     finally:
         client.close()
