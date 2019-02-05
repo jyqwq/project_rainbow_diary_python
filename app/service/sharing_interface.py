@@ -32,14 +32,13 @@ def graphic_Dairy(con):
 
 # 发布测评的封装方法
 def graphic_Test(con):
-    if con.get('com') and con.get('title') and con.get('content') and con.get('img') and con.get('tag') and con.get('title1') and con.get('content1') and con.get('title2') and con.get('content2'):
+    if con.get('title') and con.get('content') and con.get('img') and con.get('tag') and con.get('title1') and con.get('content1') and con.get('title2') and con.get('content2'):
         # 转化标签名
         tag = toStr(con['tag'])
         con['tag'] = tag
         # # 转化产品名
         # com_id = get_Com(con['com'])
         # con['com_id'] = com_id
-        print(con)
         res = graphicTest(con)
         if res:
             return {"status_code":"10008","status_text":"发布成功"}
