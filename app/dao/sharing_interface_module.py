@@ -10,7 +10,6 @@ def graphicDy(con):
         client = POOL.connection()
         cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
         sql = sharing_sql['graphicDy'].format(user_id=con['user_id'],content=con['content'],img=con['img'],tags=con['tag'])
-        print(sql)
         dy = cursor.execute(sql)
         client.commit()
     except Exception as ex:

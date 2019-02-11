@@ -27,7 +27,7 @@ def searchBySkin(skin):
 def searchByDynamic(dynamic):
     pass
 
-# 实时热搜排行
+# 实时热门排行
 def hotSearch():
     try:
         client = POOL.connection()
@@ -74,3 +74,20 @@ def hotCosmetics():
     finally:
         client.close()
         return hot_cosmetics
+
+
+def getUserName(id):
+    try:
+        client = POOL.connection()
+        username = None
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = search_sql['getUserName'].format(user_id=id)
+        cursor.execute(sql)
+        username = cursor.fetchall()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return username

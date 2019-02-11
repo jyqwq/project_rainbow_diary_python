@@ -4,7 +4,8 @@ search_sql = {
     "searchByFunction": "",
     "searchBySkin": "",
     "searchByDynamic": "",
-    "hotSearch": "SELECT e.enterprise_name ,c.commodity_name ,c.com_img,c.click,c.fbs,c.cots from commodity as c LEFT JOIN enterprise as e on c.etp_id = e.id UNION ALL SELECT u.user_nickname,d.title,d.dynamic_images,d.click,d.fbs,d.cots from dynamic as d LEFT JOIN `user` as u on d.user_id=u.user_id  order by click desc LIMIT 20;",
-    "hotDairy": "",
-    "hotCosmetics": ""
+    "hotSearch": "",
+    "hotDairy": "SELECT click,cots,fbs,images,user_id,title from journal ORDER BY (click+cots*2+fbs*4) DESC LIMIT 10",
+    "hotCosmetics": "SELECT commodity_name,com_img,click,cots,fbs from commodity as c ORDER BY (click+cots*2+fbs*4) DESC LIMIT 10",
+    "getUserName":"SELECT user_nickname FROM `user` WHERE user_id={user_id}"
 }

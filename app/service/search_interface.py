@@ -30,6 +30,15 @@ def search_By_Dynamic(dynamic):
 def hot_Search():
     res = hotSearch()
     if res:
+        for i in res:
+            if i['user_id']:
+                u = get_User_Name(i['user_id'])
+                if u and u[0]['user_nickname']:
+                    i['user_name'] = u[0]['user_nickname']
+                else:
+                    return {"status_code": "40004", "status_text": "系统错误"}
+            else:
+                return {"status_code": "40005", "status_text": "数据格式不合法"}
         return res
     else:
         return {"status_code": "40004", "status_text": "系统错误"}
@@ -39,6 +48,15 @@ def hot_Search():
 def hot_Dairy():
     res = hotDairy()
     if res:
+        for i in res:
+            if i['user_id']:
+                u = get_User_Name(i['user_id'])
+                if u and u[0]['user_nickname']:
+                    i['user_name'] = u[0]['user_nickname']
+                else:
+                    return {"status_code": "40004", "status_text": "系统错误"}
+            else:
+                return {"status_code": "40005", "status_text": "数据格式不合法"}
         return res
     else:
         return {"status_code": "40004", "status_text": "系统错误"}
@@ -51,3 +69,18 @@ def hot_Cosmetics():
         return res
     else:
         return {"status_code": "40004", "status_text": "系统错误"}
+
+# 根据userid找到username
+def get_User_Name(id):
+    if id and type(id)==type(1):
+        res = getUserName(id)
+        if res:
+            return res
+        else:
+            return -1
+    else:
+        return None
+
+if __name__ == '__main__':
+    res = hot_Dairy()
+    print(res)
