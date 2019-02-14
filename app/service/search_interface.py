@@ -81,6 +81,16 @@ def get_User_Name(id):
     else:
         return None
 
+# 热搜关键字
+def hot_Keyword():
+    res=hotKeyword()
+    if res:
+        return res
+    else:
+        return {"status_code": "40004", "status_text": "系统错误"}
+
+
+
 if __name__ == '__main__':
-    res = hot_Dairy()
+    res = hot_Keyword()
     print(res)

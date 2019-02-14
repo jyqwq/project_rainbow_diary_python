@@ -1,6 +1,6 @@
 from app.dao.sharing_interface_module import *
 from app.utils.my_function import *
-
+from app.service.search_interface import get_User_Name
 
 # 发布心情的封装方法
 def graphic_Dy(con):
@@ -55,6 +55,15 @@ def graphic_Test(con):
 def evaluation_Index():
     res = evaluationIndex()
     if res:
+        for i in res:
+            if i['user_id']:
+                u = get_User_Name(i['user_id'])
+                if u and u[0]['user_nickname']:
+                    i['user_name'] = u[0]['user_nickname']
+                else:
+                    return {"status_code": "40004", "status_text": "系统错误"}
+            else:
+                return {"status_code": "40005", "status_text": "数据格式不合法"}
         return res
     else:
         return {"status_code": "40004", "status_text": "系统错误"}
@@ -85,5 +94,5 @@ if __name__ == '__main__':
          'tag': ['保湿', '提亮肤色']}
     # u = ['保湿','提亮肤色']
     # u = '大宝SOD'
-    res = graphic_Dairy(u)
+    res = evaluation_Index()
     print(res)

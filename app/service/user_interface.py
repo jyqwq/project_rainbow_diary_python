@@ -34,7 +34,6 @@ def common_Register(user):
 # 登录方法
 def get_User(user):
     if user.get('telephone') and user.get('password'):
-        print(user['telephone'])
         rr = getUserByTel(user['telephone'])
         if rr:
             user_pwd = getPassword(user['telephone'])
@@ -71,6 +70,13 @@ def check_Token(token):
     else:
         return {"status_code": "40005", "status_text": "数据格式不合法"}
 
+# 获取用户基本信息
+def get_User_By_Id(id):
+    if id['user_id']:
+        res = getUserById(int(id['user_id']))
+        return res
+    else:
+        return {"status_code": "40005", "status_text": "数据格式不合法"}
 
 # 商家企业入驻申请的封装方法
 def application_For_Residence():

@@ -9,7 +9,7 @@ def graphicDy(con):
         dy = None
         client = POOL.connection()
         cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
-        sql = sharing_sql['graphicDy'].format(user_id=con['user_id'],content=con['content'],img=con['img'],tags=con['tag'])
+        sql = sharing_sql['graphicDy'].format(user_id=con['user_id'],content=con['content'],img=con['img'],tags=con['tag'],data=con['data'])
         dy = cursor.execute(sql)
         client.commit()
     except Exception as ex:
@@ -25,7 +25,7 @@ def graphicDairy(con):
         dairy = None
         client = POOL.connection()
         cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
-        sql = sharing_sql['graphicDairy'].format(user_id=con['user_id'],title=con['title'],content=con['content'],img=con['img'],tags=con['tag'])
+        sql = sharing_sql['graphicDairy'].format(user_id=con['user_id'],title=con['title'],content=con['content'],img=con['img'],tags=con['tag'],data=con['data'])
         dairy = cursor.execute(sql)
         client.commit()
     except Exception as ex:
@@ -42,7 +42,7 @@ def graphicTest(con):
         test_id = None
         client = POOL.connection()
         cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
-        sql1 = sharing_sql['graphicTest1'].format(main_title=con['title'],main_content=con['content'],user_id=con['user_id'],tags=con['tag'],img=con['img'])
+        sql1 = sharing_sql['graphicTest1'].format(main_title=con['title'],main_content=con['content'],user_id=con['user_id'],tags=con['tag'],img=con['img'],data=con['data'])
         cursor.execute(sql1)
         test_id = cursor.lastrowid
         sql2 = sharing_sql['graphicTest2'].format(title1=con['title1'],content1=con['content1'],title2=con['title2'],content2=con['content2'],test_id=test_id)

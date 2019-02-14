@@ -38,6 +38,7 @@ def hotSearch():
         hot_search = cursor.fetchall()
         client.commit()
     except Exception as ex:
+        print(ex)
         client.rollback()
     finally:
         client.close()
@@ -91,3 +92,19 @@ def getUserName(id):
     finally:
         client.close()
         return username
+
+def hotKeyword():
+    try:
+        client = POOL.connection()
+        keyword = None
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = search_sql['hotKeyword']
+        cursor.execute(sql)
+        keyword = cursor.fetchall()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return keyword

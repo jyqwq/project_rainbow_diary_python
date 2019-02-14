@@ -33,3 +33,18 @@ def search_rank():
             return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
     else:
         return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
+
+# 热门搜索排行
+@search.route('/search_index', methods=['POST'])
+def search_fun():
+    if request.is_json and request.get_json():
+        u = request.get_json()
+        # 实时热搜排行
+        if u['keyword']:
+            res = hot_Keyword()
+            return json.dumps(res)
+
+        else:
+            return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
+    else:
+        return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})

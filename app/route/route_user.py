@@ -14,24 +14,27 @@ def search_index():
 
 
 # 个人操作管理
-@user.route('/person', methods=['POST', 'GET', 'PUT', 'DELETE'])
+@user.route('/person', methods=['POST'])
 def person():
-    # 获取用户信息
-    if request.method == 'GET':
-        return '获取用户信息'
-    # 注册
-    elif request.method == 'POST':
-        if request.is_json and request.get_json():
-            u = request.get_json()
-            res = common_Register(u)
-            return res
+    if request.is_json and request.get_json():
+        u = request.get_json()
+        if u['methods'] == 'get':
+            res = get_User_By_Id(u)
+            return json.dumps(res)
         else:
             return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
-    elif request.method == 'PUT':
-        return '修改用户'
-    elif request.method == 'DELETE':
-        return '删除用户'
+    else:
+        return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
 
+# 注册
+@user.route('/register', methods=['POST'])
+def register():
+    if request.is_json and request.get_json():
+        u = request.get_json()
+        res = common_Register(u)
+        return res
+    else:
+        return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
 
 # 登录
 @user.route('/login', methods=['POST'])

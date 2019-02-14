@@ -28,7 +28,7 @@ def getUserByTel(tel):
         res_user = None
         client = POOL.connection()
         cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
-        sql = user_sql['getUserById'].format(telephone=tel)
+        sql = user_sql['getUserByTel'].format(telephone=tel)
         cursor.execute(sql)
         res_user = cursor.fetchone()
         client.commit()
@@ -53,6 +53,23 @@ def getPassword(tel):
     finally:
         client.close()
         return user_pwd
+
+# 通过id查找用户信息
+def getUserById(id):
+    try:
+        user = None
+        client = POOL.connection()
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = user_sql['getUserById'].format(user_id=id)
+        cursor.execute(sql)
+        user = cursor.fetchone()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return user
 
 # 商家企业入驻申请的源码
 def applicationForResidence():

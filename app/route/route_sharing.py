@@ -12,7 +12,7 @@ def sharing_index():
     pass
 
 # 测评页面
-@sharing.route('/evaluation')
+@sharing.route('/evaluation',methods=['POST'])
 def eva_index():
     if request.is_json and request.get_json():
         u = request.get_json()
