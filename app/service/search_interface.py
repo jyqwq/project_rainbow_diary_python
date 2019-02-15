@@ -1,30 +1,31 @@
 from app.dao.search_interface_module import *
 
 
-# 根据产品名搜索的封装方法
-def search_By_Product_Name(name):
-    pass
+# 根据产品搜索的封装方法
+def search_By_Product_Name(k):
+    if k and k['search'] and k['condition']:
+        res = searchByProductName(k)
+        if res:
+            for i in res:
+                i['commodity_date'] = str(i['commodity_date'])
+            return res
+        else:
+            return {"status_code": "40004", "status_text": "系统错误"}
+    else:
+        return {"status_code": "40005", "status_text": "数据格式不合法"}
 
-
-# 根据成分产品名搜索的封装方法
-def search_By_Component(component):
-    pass
-
-
-# 根据功能搜索的封装方法
-def search_By_Function(func):
-    pass
-
-
-# 根据肤质搜索的封装方法
-def search_By_Skin(skin):
-    pass
-
-
-# 根据动态标签搜索的封装方法
-def search_By_Dynamic(dynamic):
-    pass
-
+# 关键字搜索
+def search_All(k):
+    if k and k['search']:
+        res = searchAll(k)
+        if res:
+            for i in res:
+                i['commodity_date'] = str(i['commodity_date'])
+            return res
+        else:
+            return {"status_code": "40004", "status_text": "系统错误"}
+    else:
+        return {"status_code": "40005", "status_text": "数据格式不合法"}
 
 # 实时热搜排行
 def hot_Search():
@@ -92,5 +93,6 @@ def hot_Keyword():
 
 
 if __name__ == '__main__':
-    res = hot_Keyword()
+    u = {'search':'大宝','condition':4}
+    res = search_By_Product_Name(u)
     print(res)

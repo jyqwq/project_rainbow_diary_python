@@ -78,6 +78,20 @@ def get_User_By_Id(id):
     else:
         return {"status_code": "40005", "status_text": "数据格式不合法"}
 
+# 关注的动态
+def my_Dynamics(u):
+    if u and u['user_id']:
+        res=myDynamics(u['user_id'])
+        if res == -1:
+            return {"status_code": "40004", "status_text": "系统错误"}
+        else:
+            for i in res:
+                u = getUserById(i['user_id'])
+                i['user_message'] = u
+            return res
+    else:
+        return {"status_code": "40005", "status_text": "数据格式不合法"}
+
 # 商家企业入驻申请的封装方法
 def application_For_Residence():
     pass
@@ -159,8 +173,8 @@ def add_Time_Cosmetics():
 
 
 if __name__ == '__main__':
-    user = {"telephone": "13812383824", "password": "123456", "nickname": "JyQQ"}
+    user = {"telephone": "13812383824", "password": "123456", "nickname": "JyQQ",'user_id':21}
     # res=common_Register(user)
-    res = getUserByTel('13813813813')
+    res = my_Dynamics(user)
     # res = get_User(user)
     print(res)

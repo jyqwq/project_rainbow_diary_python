@@ -71,6 +71,24 @@ def getUserById(id):
         client.close()
         return user
 
+# 关注动态页面
+def myDynamics(id):
+    try:
+        all_dy = -1
+        client = POOL.connection()
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = user_sql['myDynamics'].format(user_id=id)
+        cursor.execute(sql)
+        all_dy = cursor.fetchall()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return all_dy
+
+
 # 商家企业入驻申请的源码
 def applicationForResidence():
     pass

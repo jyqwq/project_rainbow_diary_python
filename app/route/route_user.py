@@ -21,6 +21,9 @@ def person():
         if u['methods'] == 'get':
             res = get_User_By_Id(u)
             return json.dumps(res)
+        elif u['methods'] == 'dy':
+            res = my_Dynamics(u)
+            return json.dumps(res)
         else:
             return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
     else:

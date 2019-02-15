@@ -7,9 +7,21 @@ search = Blueprint('search', __name__)
 
 
 # 搜索主页面
-@search.route('/')
+@search.route('/', methods=['POST'])
 def search_index():
-    pass
+    if request.is_json and request.get_json():
+        u = request.get_json()
+        # 搜索方式判断
+        if u['condition'] and u['condition']=='no':
+            res = search_All(u)
+        else:
+            res = search_By_Product_Name(u)
+        if res:
+            return json.dumps(res)
+        else:
+            return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
+    else:
+        return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
 
 
 # 热门搜索排行
@@ -34,7 +46,7 @@ def search_rank():
     else:
         return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
 
-# 热门搜索排行
+# 热搜关键字
 @search.route('/search_index', methods=['POST'])
 def search_fun():
     if request.is_json and request.get_json():
@@ -43,7 +55,6 @@ def search_fun():
         if u['keyword']:
             res = hot_Keyword()
             return json.dumps(res)
-
         else:
             return json.dumps({"status_code": "40005", "status_text": "数据格式不合法"})
     else:

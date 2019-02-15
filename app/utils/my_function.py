@@ -20,7 +20,6 @@ def toStr(u):
             str = str + ',' + i
     return str
 
-
 if __name__ == '__main__':
     u = ['a','b','c']
     a = toStr(u)

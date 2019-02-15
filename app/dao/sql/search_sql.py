@@ -1,5 +1,6 @@
 search_sql = {
-    "searchByProductName": "",
+    "searchByProductName": "SELECT * from commodity  WHERE commodity.commodity_name like '%{keyword}%' and commodity.category_id={category_id};",
+    "searchAll": "SELECT * from commodity  WHERE commodity.commodity_name like '%{keyword}%'",
     "searchByComponent": "",
     "searchByFunction": "",
     "searchBySkin": "",

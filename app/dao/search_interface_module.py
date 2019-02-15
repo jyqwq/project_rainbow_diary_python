@@ -3,29 +3,38 @@ import pymysql
 from app.dao.sql.search_sql import *
 
 
-# 根据产品名搜索的源码
-def searchByProductName(name):
-    pass
+# 根据产品搜索的源码
+def searchByProductName(k):
+    try:
+        client = POOL.connection()
+        res = None
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = search_sql['searchByProductName'].format(keyword=k['search'],category_id=k['condition'])
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return res
 
-
-# 根据成分产品名搜索的源码
-def searchByComponent(component):
-    pass
-
-
-# 根据功能搜索的源码
-def searchByFunction(func):
-    pass
-
-
-# 根据肤质搜索的源码
-def searchBySkin(skin):
-    pass
-
-
-# 根据动态标签搜索的源码
-def searchByDynamic(dynamic):
-    pass
+def searchAll(k):
+    try:
+        client = POOL.connection()
+        res = None
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = search_sql['searchAll'].format(keyword=k['search'])
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return res
 
 # 实时热门排行
 def hotSearch():
