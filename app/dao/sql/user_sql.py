@@ -3,7 +3,9 @@ user_sql = {
     "commonRegister": "insert into user(user_phone,user_password,user_nickname,regist_date) values('{telephone}','{password}','{nickname}',CURDATE())",
     "getPassword": "select user_password from user where user_phone={telephone} limit 1",
     "getUserById": "select user_id,user_nickname,user_phone,user_icon,user_skin,user_sex,user_age,user_autograpgh,user_fans,user_watchs from user where user_id={user_id} limit 1",
-    "myDynamics": "SELECT d.words,d.click,d.dynamic_images,d.cots,d.fbs,d.tags,d.user_id,d.data,'nothing' as new_col,'dynamic' as t_name from dynamic d WHERE (user_id) in (SELECT other_id from follow WHERE user_id={user_id}) union ALL SELECT j.title,j.click,j.images,j.cots,j.fbs,j.tags,j.user_id,j.data,j.words as new_col,'journal' as t_name from journal j WHERE (user_id) in (SELECT other_id from follow WHERE user_id={user_id}) UNION ALL SELECT c.title,c.click,c.img,c.cots,c.fbs,c.tags,c.user_id ,c.data,GROUP_CONCAT(s.title SEPARATOR '&') as new_col,'test' as t_name from commodity_test_main c LEFT JOIN commodity_test_subtitle s on c.id=s.main_id  WHERE (user_id) in (SELECT other_id from follow WHERE user_id={user_id})  GROUP BY c.title ORDER BY user_id,data DESC",
+    "myDynamics": "SELECT d.id,d.words,d.click,d.dynamic_images,d.cots,d.fbs,d.tags,d.user_id,d.data,'nothing' as new_col,'dynamic' as t_name from dynamic d WHERE (user_id) in (SELECT other_id from follow WHERE user_id={user_id}) union ALL SELECT j.id,j.title,j.click,j.images,j.cots,j.fbs,j.tags,j.user_id,j.data,j.words as new_col,'journal' as t_name from journal j WHERE (user_id) in (SELECT other_id from follow WHERE user_id={user_id}) UNION ALL SELECT c.id,c.title,c.click,c.img,c.cots,c.fbs,c.tags,c.user_id ,c.data,GROUP_CONCAT(s.title SEPARATOR '&') as new_col,'test' as t_name from commodity_test_main c LEFT JOIN commodity_test_subtitle s on c.id=s.main_id  WHERE (user_id) in (SELECT other_id from follow WHERE user_id={user_id})  GROUP BY c.title ORDER BY user_id,data DESC",
+    "getDyById": "SELECT * from {tb} WHERE id={id}",
+    "getTestById": "SELECT c.title,c.content,c.click,c.img,c.cots,c.fbs,c.tags,c.user_id ,c.data,GROUP_CONCAT(s.title SEPARATOR '&') as a_title,GROUP_CONCAT(s.content SEPARATOR '&') as a_content from commodity_test_main c LEFT JOIN commodity_test_subtitle s on c.id=s.main_id  WHERE c.id={id}",
     "applicationForResidence": "",
     "celebrityCertification": "",
     "skinTest": "",
@@ -16,8 +18,8 @@ user_sql = {
     "increaseCompliment": "",
     "deleteCompliment": "",
     "viewCompliment": "",
-    "increaseConcerns": "",
-    "deleteConcerns": "",
-    "viewConcerns": "",
+    "increaseConcerns": "INSERT into follow VALUES (null,{user_id},{other_id})",
+    "deleteConcerns": "DELETE from follow WHERE user_id={user_id} and other_id={other_id}",
+    "viewConcerns": "SELECT id from follow WHERE user_id={user_id} and other_id={other_id}",
     "addTimeCosmetics": ""
 }

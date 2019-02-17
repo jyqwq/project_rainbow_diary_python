@@ -41,9 +41,9 @@ def get_User(user):
                 if (check_password_hash(user_pwd['user_password'], user['password'])):
                     token = createToken(user['telephone'])
                     response = make_response()
-                    response.data = json.dumps({"status_code": "10003", "status_text": "登录成功", "token": token, "usermessage": rr})
+                    response.data = json.dumps(
+                        {"status_code": "10003", "status_text": "登录成功", "token": token, "usermessage": rr})
                     response.status_code = 200
-                    print(response)
                     return response
                 else:
                     return json.dumps({"status_code": "10005", "status_text": "密码错误"})
@@ -70,25 +70,92 @@ def check_Token(token):
     else:
         return {"status_code": "40005", "status_text": "数据格式不合法"}
 
+
 # 获取用户基本信息
 def get_User_By_Id(id):
     if id['user_id']:
         res = getUserById(int(id['user_id']))
-        return res
+        if res:
+            return res
+        else:
+            return {"status_code": "40004", "status_text": "系统错误"}
     else:
         return {"status_code": "40005", "status_text": "数据格式不合法"}
+
 
 # 关注的动态
 def my_Dynamics(u):
     if u and u['user_id']:
-        res=myDynamics(u['user_id'])
+        res = myDynamics(u['user_id'])
         if res == -1:
             return {"status_code": "40004", "status_text": "系统错误"}
         else:
             for i in res:
                 u = getUserById(i['user_id'])
-                i['user_message'] = u
+                if u:
+                    i['user_message'] = u
+                else:
+                    return {"status_code": "40004", "status_text": "系统错误"}
             return res
+    else:
+        return {"status_code": "40005", "status_text": "数据格式不合法"}
+
+# 单个动态
+def get_Dy_By_Id(u):
+    # 单个测评
+    if u['id'] and u['type'] == 'test':
+        res=getTestById(u['id'])
+    # 心情和日记
+    elif u['id'] and (u['type'] == 'dynamic' or u['type'] == 'journal'):
+        res = getDyById(u)
+    else:
+        return {"status_code": "40005", "status_text": "数据格式不合法"}
+    if res and res['user_id']:
+        u = getUserById(res['user_id'])
+        if u:
+            res['user_message'] = u
+        else:
+            return {"status_code": "40004", "status_text": "系统错误"}
+        return res
+    else:
+        return {"status_code": "40004", "status_text": "系统错误"}
+
+
+# 增加关注的封装方法
+def increase_Concerns(u):
+    if u and u['user_id'] and u['other_id']:
+        res = increaseConcerns(u)
+        if res:
+            return {"status_code":"10009","status_text":"关注成功"}
+        else:
+            return {"status_code": "40004", "status_text": "系统错误"}
+    else:
+        return {"status_code": "40005", "status_text": "数据格式不合法"}
+
+
+# 删除关注的封装方法
+def delete_Concerns(u):
+    if u and u['user_id'] and u['other_id']:
+        res = deleteConcerns(u)
+        if res:
+            return {"status_code": "10010", "status_text": "删除成功"}
+        else:
+            return {"status_code": "40004", "status_text": "系统错误"}
+    else:
+        return {"status_code": "40005", "status_text": "数据格式不合法"}
+
+
+# 查看是否关注的封装方法
+def view_Concern(u):
+    if u and u['user_id'] and u['other_id']:
+        res = viewConcern(u)
+        if res:
+            if res == -1:
+                return {"status_code": "40004", "status_text": "系统错误"}
+            elif type(res) == type({"1": "1"}):
+                return {"status_code": "10011", "status_text": "已关注"}
+        else:
+            return {"status_code": "10012", "status_text": "未关注"}
     else:
         return {"status_code": "40005", "status_text": "数据格式不合法"}
 
@@ -152,29 +219,17 @@ def view_Compliment():
     pass
 
 
-# 增加关注的封装方法
-def increase_Concerns():
-    pass
-
-
-# 删除关注的封装方法
-def delete_Concerns():
-    pass
-
-
-# 查看关注的封装方法
-def view_Concerns():
-    pass
-
-
 # 添加计时化妆品的封装方法
 def add_Time_Cosmetics():
     pass
 
 
 if __name__ == '__main__':
-    user = {"telephone": "13812383824", "password": "123456", "nickname": "JyQQ",'user_id':21}
+    user = {"telephone": "13812383824", "password": "123456", "nickname": "JyQQ", 'user_id': 21}
     # res=common_Register(user)
-    res = my_Dynamics(user)
+    # res = my_Dynamics(user)
     # res = get_User(user)
+    # res = get_Dy_By_Id({'type': 'journal', 'id': 1})
+    res = view_Concern({'user_id':21,'other_id':2})
     print(res)
+

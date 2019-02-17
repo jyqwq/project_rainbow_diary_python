@@ -31,5 +31,5 @@ def evaluation_Information():
         return {"status_code": "40004", "status_text": "系统错误"}
 
 if __name__ == '__main__':
-    skin = {'skinid': 1}
-    print(hot_Dynamic())
+    skin = {'skinid': 3}
+    print(recommendedVolume(skin))

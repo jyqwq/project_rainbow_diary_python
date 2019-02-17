@@ -102,6 +102,7 @@ def getUserName(id):
         client.close()
         return username
 
+# 热搜关键字排行获取
 def hotKeyword():
     try:
         client = POOL.connection()
@@ -110,6 +111,22 @@ def hotKeyword():
         sql = search_sql['hotKeyword']
         cursor.execute(sql)
         keyword = cursor.fetchall()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return keyword
+
+# 记录搜索关键字
+def recordKeyword(k):
+    try:
+        client = POOL.connection()
+        keyword = None
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = search_sql['recordKeyword'].format(keyword=k)
+        keyword = cursor.execute(sql)
         client.commit()
     except Exception as ex:
         print(ex)

@@ -88,6 +88,91 @@ def myDynamics(id):
         client.close()
         return all_dy
 
+# 获取单个动态
+def getDyById(u):
+    try:
+        one_dy = None
+        client = POOL.connection()
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = user_sql['getDyById'].format(tb=u['type'],id=u['id'])
+        cursor.execute(sql)
+        one_dy = cursor.fetchone()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return one_dy
+
+# 单个测评
+def getTestById(id):
+    try:
+        one_dy = None
+        client = POOL.connection()
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = user_sql['getTestById'].format(id=id)
+        cursor.execute(sql)
+        one_dy = cursor.fetchone()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return one_dy
+
+# 增加关注的源码
+def increaseConcerns(u):
+    try:
+        myf = None
+        client = POOL.connection()
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = user_sql['increaseConcerns'].format(user_id=u['user_id'], other_id=u['other_id'])
+        myf = cursor.execute(sql)
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return myf
+
+
+# 删除关注的源码
+def deleteConcerns(u):
+    try:
+        myf = None
+        client = POOL.connection()
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = user_sql['deleteConcerns'].format(user_id=u['user_id'], other_id=u['other_id'])
+        myf = cursor.execute(sql)
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return myf
+
+
+# 查看关注的源码
+def viewConcern(u):
+    try:
+        myf = -1
+        client = POOL.connection()
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = user_sql['viewConcerns'].format(user_id=u['user_id'], other_id=u['other_id'])
+        cursor.execute(sql)
+        myf = cursor.fetchone()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return myf
+
 
 # 商家企业入驻申请的源码
 def applicationForResidence():
@@ -149,19 +234,6 @@ def viewCompliment():
     pass
 
 
-# 增加关注的源码
-def increaseConcerns():
-    pass
-
-
-# 删除关注的源码
-def deleteConcerns():
-    pass
-
-
-# 查看关注的源码
-def viewConcerns():
-    pass
 
 
 # 添加计时化妆品的源码
