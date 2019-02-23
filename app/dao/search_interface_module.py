@@ -9,7 +9,7 @@ def searchByProductName(k):
         client = POOL.connection()
         res = None
         cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
-        sql = search_sql['searchByProductName'].format(keyword=k['search'],category_id=k['condition'])
+        sql = search_sql['searchByProductName'].format(keyword=k['keyword'],category_id=k['condition'])
         cursor.execute(sql)
         res = cursor.fetchall()
         client.commit()
@@ -20,12 +20,148 @@ def searchByProductName(k):
         client.close()
         return res
 
+# 品牌+功能
+def searchByProductBrands(k):
+    try:
+        client = POOL.connection()
+        res = None
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = search_sql['searchByProductBrands'].format(etp=k['etp'],keyword=k['keyword'],condition=k['condition'])
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return res
+
+# 品牌
+def searchByProductBrand(k):
+    try:
+        client = POOL.connection()
+        res = None
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = search_sql['searchByProductBrand'].format(etp=k['etp'],keyword=k['keyword'])
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return res
+
+# 品种
+def searchByProductVarieties(k):
+    try:
+        client = POOL.connection()
+        res = None
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = search_sql['searchByProductVarieties'].format(condition=k['condition'],keyword=k['keyword'])
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return res
+
+# 标签
+def searchByProductTags(k):
+    try:
+        client = POOL.connection()
+        res = None
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = search_sql['searchByProductTags'].format(etp=k['etp'],keyword=k['keyword'],condition=k['condition'])
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return res
+
+def searchByProductTag(k):
+    try:
+        client = POOL.connection()
+        res = None
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = search_sql['searchByProductTag'].format(keyword=k['keyword'], condition=k['condition'])
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return res
+
+# 搜索综合
 def searchAll(k):
     try:
         client = POOL.connection()
         res = None
         cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
-        sql = search_sql['searchAll'].format(keyword=k['search'])
+        sql = search_sql['searchAll'].format(keyword=k['keyword'])
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return res
+
+# 查找心情
+def searchDynamic(k):
+    try:
+        client = POOL.connection()
+        res = -1
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = search_sql['searchDynamic'].format(keyword=k['keyword'])
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return res
+
+# 查找日记
+def searchJournal(k):
+    try:
+        client = POOL.connection()
+        res = -1
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = search_sql['searchJournal'].format(keyword=k['keyword'])
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return res
+
+ # 查找测评
+def searchTest(k):
+    try:
+        client = POOL.connection()
+        res = -1
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = search_sql['searchTest'].format(keyword=k['keyword'])
         cursor.execute(sql)
         res = cursor.fetchall()
         client.commit()
@@ -125,7 +261,7 @@ def recordKeyword(k):
         client = POOL.connection()
         keyword = None
         cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
-        sql = search_sql['recordKeyword'].format(keyword=k)
+        sql = search_sql['recordKeyword'].format(keyword=k['keyword'],user_id=k['user_id'])
         keyword = cursor.execute(sql)
         client.commit()
     except Exception as ex:
@@ -134,3 +270,37 @@ def recordKeyword(k):
     finally:
         client.close()
         return keyword
+
+# 查询单个商品
+def searchCommodity(id):
+    try:
+        client = POOL.connection()
+        com = None
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = search_sql['searchCommodity'].format(id=id)
+        cursor.execute(sql)
+        com = cursor.fetchone()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return com
+
+# 查询单个商品评论
+def commodityComment(id):
+    try:
+        client = POOL.connection()
+        com = -1
+        cursor = client.cursor(cursor=pymysql.cursors.DictCursor)
+        sql = search_sql['commodityComment'].format(id=id)
+        cursor.execute(sql)
+        com = cursor.fetchall()
+        client.commit()
+    except Exception as ex:
+        print(ex)
+        client.rollback()
+    finally:
+        client.close()
+        return com
